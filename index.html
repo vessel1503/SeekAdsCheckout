@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Seek Ads</title>
+	<meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/plugins/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/seekAds.css" rel="stylesheet" />
+</head>
+<body ng-app="seekAds">
+
+    <div ng-controller="adsCheckoutController as vm" ng-init="vm.initCheckout()" ng-cloak>
+
+        <div class="container seek-mainWrapper">
+
+            <div class="row seek-marginTop-30">
+                <div class="col-sm-12">
+                    <div class="btn btn-primary" ng-click="vm.selectCustomer(1)">
+                        Normal Customer
+                    </div>
+                    <div class="btn btn-primary" ng-click="vm.selectCustomer(2)">
+                        Unilever
+                    </div>
+                    <div class="btn btn-primary" ng-click="vm.selectCustomer(3)">
+                        Apple
+                    </div>
+                    <div class="btn btn-primary" ng-click="vm.selectCustomer(4)">
+                        Nike
+                    </div>
+                    <div class="btn btn-primary" ng-click="vm.selectCustomer(5)">
+                        Ford
+                    </div>
+                </div>
+            </div>
+
+            <div class="row seek-marginTop-30">
+                <div class="col-sm-12">
+                    Selected Customer: <strong>{{vm.selectedCustomer.Name}}</strong>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row" ng-hide="!vm.selectedCustomer.Id">
+                <div class="container seek-secondWrapper">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            Ads Types
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            ($)
+                        </div>
+                        <div class="col-sm-3 text-center">
+                            Order Quantity
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            ($)
+                        </div>
+                    </div>
+
+                    <div class="row" ng-repeat="item in vm.adsList">
+                        <div class="col-sm-3">
+                            {{item.Name}}
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            {{item.Price}}
+                        </div>
+                        <div class="col-sm-3 text-center">
+                            <input type="number" ng-model="item.Quantity" ng-init="item.Quantity=0" ng-change="vm.calculatePrice()" value="0" min="0" class="text-right" />
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            <strong>
+                                {{item.Price * item.Quantity | number : 2}}
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div class="row seek-marginTop-30">
+                        <div class="col-sm-offset-6 col-sm-3 text-right">
+                            Total Price ($)
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            <strong>
+                                {{vm.adsCheckout.TotalPrice || 0 | number : 2}}
+                            </strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-offset-6 col-sm-3 text-right">
+                            Discount ($)
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            <strong>
+                                {{vm.adsCheckout.TotalDiscount || 0 | number : 2}}
+                            </strong>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-offset-6 col-sm-3 text-right">
+                            Net Price ($)
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            <strong>
+                                {{vm.adsCheckout.TotalNetPrice || 0 | number : 2}}
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <!--Plugins-->
+    <script src="js/plugins/angular/angular.min.js"></script>
+    <script src="js/plugins/underscore/underscore-min.js"></script>
+    <script src="js/plugins/underscore/angular-underscore-module.js"></script>
+
+    <script src="js/app/constant/PricingRuleTypeConstant.js"></script>
+    <script src="js/app/app.js"></script>
+    <script src="js/app/service/adsService.js"></script>
+    <script src="js/app/service/customerService.js"></script>
+    <script src="js/app/service/adsCheckoutService.js"></script>
+    <script src="js/app/controller/adsCheckoutController.js"></script>
+</body>
+</html>
